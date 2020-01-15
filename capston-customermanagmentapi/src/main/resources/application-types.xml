@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="getallusers" format="json">
+      <types:shape format="weave" example="api/Examples/GetExample.json"><![CDATA[%dw 2.0
+
+type getallusers = Array<{|  ID: Number {"typeId": "int"},   first: String,   last: String,   departement: String|}> {"example": "[{\\\"ID\\\":1,\\\"first\\\":\\\"adam\\\",\\\"last\\\":\\\"henny\\\",\\\"departement\\\":\\\"Mule Developer\\\"},{\\\"ID\\\":2,\\\"first\\\":\\\"Yemisrach\\\",\\\"last\\\":\\\"Bogale\\\",\\\"departement\\\":\\\"Mule Developer\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="updateuser" format="json">
+      <types:shape format="weave" example="api/Examples/putExample.json"><![CDATA[%dw 2.0
+
+type updateuser = {|
+  ID: Number {"typeId": "int"}, 
+  first: String, 
+  last: String, 
+  departement: String
+|} {"example": "{\\\"ID\\\":2,\\\"first\\\":\\\"Yemisrach\\\",\\\"last\\\":\\\"Bogale\\\",\\\"departement\\\":\\\"Mule Developer\\\"}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#fe430306-aaa7-4d10-9a28-1ce0a828203e"/>
+  <types:enrichment select="#7171abc2-1ec5-40d0-8cb0-9c90d6f8193b">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="getallusers"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#92147a12-cd8d-4d0b-b5bc-8014b1caf441">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="updateuser"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
